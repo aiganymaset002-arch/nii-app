@@ -10,10 +10,9 @@
 import Foundation
 
 enum NIIConfig {
-    // Same Supabase project as KKSU Online: NII tables are separate (all start with nii_).
-    // To use a separate project, replace both values (see README).
-    static let supabaseURL = "https://vllechyeunbtozhubuud.supabase.co"
-    static let supabaseKey = "sb_publishable_ThNRdPI2yoG1rQxLAiwusg_CmxF8Y7Y"
+    // NII's own Supabase project (backend/schema.sql is run there).
+    static let supabaseURL = "https://kvqjqynvcmdxkesjvzdj.supabase.co"
+    static let supabaseKey = "sb_publishable_G6L2ShvLj0gw72kHAFVmaw_igUXJVJR"
 
     /// Auto-renewable subscription in App Store Connect (and in NII.storekit for testing).
     static let proProductID = "kz.nii.app.pro.monthly"
