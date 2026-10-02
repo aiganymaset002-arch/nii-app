@@ -43,6 +43,9 @@ enum NIIError: LocalizedError, Equatable {
         if lower.contains("unable to validate email") || lower.contains("invalid format") { return "Неправильный email." }
         if lower.contains("row-level security") { return "Недостаточно прав для этого действия." }
         if lower.contains("duplicate key") { return "Уже сделано ранее." }
+        if lower.contains("could not find the table") || lower.contains("schema cache") || lower.contains("does not exist") {
+            return "В базе ещё нет таблиц НИИ. Запустите файл backend/schema.sql в Supabase → SQL Editor. (\(message))"
+        }
         if lower.contains("jwt expired") { return "Сессия устарела, войдите снова." }
         return message
     }

@@ -12,6 +12,8 @@ import SwiftUI
 final class AppState: ObservableObject {
     @Published private(set) var profile: Profile?
     @Published private(set) var isStarting = true
+    /// Why the profile could not be loaded (shown on screen instead of an endless spinner)
+    @Published private(set) var profileError: String?
     @Published var signedIn = false
 
     let api = API()
@@ -33,6 +35,7 @@ final class AppState: ObservableObject {
     }
 
     func loadProfile() async {
+        profileError = nil
         do {
             if let existing = try await api.myProfile() {
                 profile = existing
@@ -49,7 +52,10 @@ final class AppState: ObservableObject {
             signedIn = false
             profile = nil
         } catch {
-            // Keep the last known profile when offline
+            // Keep the last known profile when offline, but say what went wrong
+            if profile == nil {
+                profileError = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+            }
         }
     }
 

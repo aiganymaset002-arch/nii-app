@@ -23,11 +23,19 @@ struct RootView: View {
                 MainTabs(role: profile.role)
             } else {
                 VStack(spacing: 16) {
-                    ProgressView()
-                    Text("Загружаем профиль…").foregroundStyle(.secondary)
+                    if let message = state.profileError {
+                        Image(systemName: "exclamationmark.triangle.fill").font(.largeTitle).foregroundStyle(.orange)
+                        Text("Не удалось загрузить профиль").font(.headline)
+                        Text(message).font(.subheadline).foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center).textSelection(.enabled)
+                    } else {
+                        ProgressView()
+                        Text("Загружаем профиль…").foregroundStyle(.secondary)
+                    }
                     Button("Повторить") { Task { await state.loadProfile() } }
                     Button("Выйти", role: .destructive) { Task { await state.signOut() } }
                 }
+                .padding(24)
             }
         }
         .task { await state.start() }
