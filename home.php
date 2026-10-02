@@ -45,7 +45,6 @@ page_header("Главная", $user);
         <?php else: ?>
             <a href="pro.php" class="btn bg-amber-300 text-amber-900">⭐ Подключить NII Pro — <?= e(money($settings["pro_price"])) ?>/мес</a>
         <?php endif; ?>
-        <a href="<?= e($settings["journal_url"]) ?>" class="btn bg-white/15">✍️ Опубликовать статью</a>
     </div>
 </section>
 

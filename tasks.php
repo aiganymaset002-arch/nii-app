@@ -115,7 +115,7 @@ page_header("Задачи", $user);
         <div class="flex-1 min-w-0">
             <p class="font-semibold <?= $t["status"] === "done" ? "line-through text-slate-400" : "" ?>">
                 <?= $t["priority"] === "high" ? "🔥 " : "" ?><?= e($t["title"]) ?>
-                <?php if ($t["week"]): ?><span class="chip bg-indigo-100 text-indigo-800 ml-1">Неделя <?= (int)$t["week"] ?></span><?php endif; ?>
+                <?php if ($t["week"] !== null): ?><span class="chip bg-indigo-100 text-indigo-800 ml-1"><?= week_label($t["week"]) ?></span><?php endif; ?>
             </p>
             <?php if ($t["description"]): ?><p class="text-sm text-slate-500"><?= e($t["description"]) ?></p><?php endif; ?>
             <p class="text-xs mt-1 <?= $overdue ? "text-red-600 font-bold" : "text-slate-500" ?>">

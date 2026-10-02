@@ -94,11 +94,7 @@ page_header("Профиль", $user);
     </div>
 
     <div class="space-y-6">
-        <div class="card p-6">
-            <h2 class="font-bold text-lg mb-3">✍️ Хотите опубликовать статью?</h2>
-            <p class="text-slate-600">Статьи принимает научный журнал НИИ: подача, рецензирование и публикация проходят на сайте журнала.</p>
-            <a href="<?= e($settings["journal_url"]) ?>" class="btn btn-primary mt-3">Перейти на сайт журнала →</a>
-        </div>
+
 
         <div class="card p-6">
             <h2 class="font-bold text-lg mb-3">Мои заявки</h2>

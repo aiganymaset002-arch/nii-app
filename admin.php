@@ -77,7 +77,7 @@ page_header("Панель организатора", $user);
                     <button class="w-6 h-6 rounded-md border-2 border-slate-300" title="Готово"></button>
                 </form>
                 <div class="flex-1"><?= $t["priority"] === "high" ? "🔥 " : "" ?><?= e($t["title"]) ?>
-                    <?php if ($t["week"]): ?><span class="chip bg-indigo-100 text-indigo-800">Неделя <?= (int)$t["week"] ?></span><?php endif; ?>
+                    <?php if ($t["week"] !== null): ?><span class="chip bg-indigo-100 text-indigo-800"><?= week_label($t["week"]) ?></span><?php endif; ?>
                 </div>
                 <?php if ($late): ?><span class="text-xs text-red-600 font-bold"><?= fmt_date($t["due_date"]) ?></span><?php endif; ?>
             </div>

@@ -12,7 +12,6 @@ $settings = [
 
     "app_name"    => "NII App",
     "org_name"    => "НИИ Инклюзивного Инжиниринга",
-    "journal_url" => "http://89.126.192.248/publish.php",
     "debug"       => true,
 
     // Codes for registering as admin (organizer) or team member

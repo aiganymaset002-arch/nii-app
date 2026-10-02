@@ -3,6 +3,8 @@
 Приложение НИИ Инклюзивного Инжиниринга: курсы, конференции, онлайн-лаборатория,
 программы, новости, мерч, подписка NII Pro и управление задачами НИИ.
 
+Приложение полностью отдельное от сайта журнала: своя папка, своя база данных, свой адрес.
+
 Работает в браузере и ставится на телефон иконкой (PWA).
 
 ## Три вида входа
@@ -26,28 +28,19 @@
 
 ## Установка на сервер
 
-Сервер, где уже работает сайт журнала (nginx + PHP 8.3 + MySQL):
+На сервере уже должны быть nginx, PHP 8.3 и MySQL (они есть, если сервер настраивался для другого сайта).
 
 ```bash
-cd /var/www/nii
-git clone https://github.com/aiganymaset002-arch/nii-app.git app
-bash app/install.sh
+git clone https://github.com/aiganymaset002-arch/nii-app.git /var/www/nii-app
+bash /var/www/nii-app/install.sh
 ```
 
-Скрипт создаст базу данных, пароль к ней и коды регистрации (покажет их в конце).
-Приложение откроется по адресу `http://<сервер>/app/`.
-
-Защита служебных файлов в nginx (в `server { ... }` сайта, перед `location ~ \.php$`):
-
-```nginx
-location ~ ^/app/(schema\.sql|install\.sh|README\.md|config\.local\.php)$ { deny all; }
-location ^~ /app/uploads/ { location ~ \.php$ { deny all; } }
-```
-
-Затем `nginx -t && systemctl reload nginx`.
+Скрипт сам создаёт отдельную базу `nii_app`, пароль к ней, коды регистрации и отдельный
+сайт в nginx. Приложение откроется по адресу `http://<IP сервера>:8080`,
+а после DNS-записи `A app → <IP сервера>` — по адресу `http://app.nii-arai-publishhouse.kz`.
 
 ## Обновление
 
 ```bash
-cd /var/www/nii/app && git pull
+cd /var/www/nii-app && git pull
 ```

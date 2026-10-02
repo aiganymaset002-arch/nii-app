@@ -14,8 +14,9 @@ if (is_post()) {
         $start = strtotime(post("start") ?: date("Y-m-d"));
 
         foreach ($plan as $week => $items) {
-            // Week N ends on day N*7 (week 12 covers days 78–90)
-            $due = date("Y-m-d", strtotime("+" . ($week === 12 ? 89 : $week * 7 - 1) . " days", $start));
+            // Point A tasks are due on day 1, week N on day N*7 (week 12 covers days 78–90)
+            $day = $week === 0 ? 1 : ($week === 12 ? 90 : $week * 7);
+            $due = date("Y-m-d", strtotime("+" . ($day - 1) . " days", $start));
             foreach ($items as $title) {
                 q("INSERT INTO tasks (title, due_date, week, created_by) VALUES (?, ?, ?, ?)", [$title, $due, $week, (int)$user["id"]]);
             }
@@ -39,7 +40,7 @@ foreach ($tasks as $t) {
 
 $done = count(array_filter($tasks, fn($t) => $t["status"] === "done"));
 $team = rows("SELECT id, name FROM users WHERE role IN ('admin', 'team') ORDER BY name");
-$colors = ["bg-blue-600", "bg-sky-600", "bg-teal-600", "bg-green-600", "bg-lime-600", "bg-amber-500", "bg-orange-600", "bg-red-600", "bg-rose-600", "bg-pink-600", "bg-fuchsia-600", "bg-purple-700"];
+$colors = ["bg-indigo-700", "bg-blue-600", "bg-sky-600", "bg-teal-600", "bg-green-600", "bg-lime-600", "bg-amber-500", "bg-orange-600", "bg-red-600", "bg-rose-600", "bg-pink-600", "bg-fuchsia-600", "bg-purple-700"];
 
 page_header("План 90 дней", $user);
 ?>
@@ -67,9 +68,9 @@ page_header("План 90 дней", $user);
 <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
 <?php foreach ($plan as $week => $items): $list = $by_week[$week] ?? []; ?>
     <section class="card overflow-hidden">
-        <div class="<?= $colors[$week - 1] ?> text-white px-4 py-2 flex justify-between">
-            <strong>Неделя <?= $week ?></strong>
-            <span class="opacity-90 text-sm">Дни <?= ($week - 1) * 7 + 1 ?>–<?= $week === 12 ? 90 : $week * 7 ?></span>
+        <div class="<?= $colors[$week] ?> text-white px-4 py-2 flex justify-between">
+            <strong><?= $week === 0 ? "Точка А" : "Неделя " . $week ?></strong>
+            <span class="opacity-90 text-sm"><?= $week === 0 ? "День 1" : "Дни " . (($week - 1) * 7 + 1) . "–" . ($week === 12 ? 90 : $week * 7) ?></span>
         </div>
         <div class="divide-y">
         <?php if (!$list): ?>
@@ -98,4 +99,15 @@ page_header("План 90 дней", $user);
     </section>
 <?php endforeach; ?>
 </div>
+
+<section class="card p-6 mt-6 border-2 border-fuchsia-300">
+    <p class="text-sm font-bold text-fuchsia-700">ТОЧКА Б · ДЕНЬ 90</p>
+    <h2 class="text-xl font-bold mt-1">НИИ — признанный международный центр Inclusive Engineering</h2>
+    <p class="text-slate-600">с исследованиями, партнёрами, грантами, прототипами и сильной командой.</p>
+    <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-4">
+        <?php foreach (["Сайт и Research Library", "10 флагманских исследований", "Международные партнёрства", "Первая конференция и Demo Day", "Гранты и пилоты", "Патентные заявки", "Прототипы и лаборатории", "Команда и система", "Международное признание"] as $goal): ?>
+            <li class="flex gap-2"><span class="text-fuchsia-600">✔</span><?= e($goal) ?></li>
+        <?php endforeach; ?>
+    </ul>
+</section>
 <?php page_footer();

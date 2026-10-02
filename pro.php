@@ -29,7 +29,6 @@ page_header("NII Pro", $user);
             <li class="flex gap-3"><span>📅</span><span><strong>Закрытые семинары и мастер-классы</strong> (Pro-мероприятия).</span></li>
             <li class="flex gap-3"><span>📜</span><span><strong>Сертификаты</strong> о прохождении курсов.</span></li>
             <li class="flex gap-3"><span>🚀</span><span><strong>Приоритет</strong> при отборе на стажировки и программы НИИ.</span></li>
-            <li class="flex gap-3"><span>✍️</span><span>Помощь с подготовкой статьи к публикации в журнале НИИ.</span></li>
         </ul>
 
         <?php if (!$user["is_family"] && !is_staff($user)): ?>

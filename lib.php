@@ -293,3 +293,9 @@ function img_url($url)
 
     return (safe_url($url) || preg_match('~^uploads/[\w.%-]+$~', $url)) ? $url : "";
 }
+
+// Roadmap column name: 0 = Point A (day 1), 1–12 = weeks
+function week_label($week)
+{
+    return (int)$week === 0 ? "Старт" : "Неделя " . (int)$week;
+}
