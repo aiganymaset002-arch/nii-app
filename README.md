@@ -21,7 +21,7 @@
 ## Как запустить — 3 шага
 
 ### 1. База данных (один раз, 2 минуты)
-1. Откройте [supabase.com](https://supabase.com) → проект KKSU → **SQL Editor** → **New query**.
+1. Откройте [supabase.com](https://supabase.com) → проект НИИ → **SQL Editor** → **New query**.
 2. Скопируйте весь файл [`backend/schema.sql`](backend/schema.sql), вставьте и нажмите **Run**.
 3. Внизу появятся два кода — **сохраните их**:
    - `admin_code` (ADMIN-…) — для вашего входа как организатор;
