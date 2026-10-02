@@ -176,7 +176,7 @@ struct CourseDetailView: View {
         let open = isAdmin || (enrolled && !locked)
         let label = HStack {
             Image(systemName: done.contains(lesson.id) ? "checkmark.circle.fill" : (open ? "play.circle" : "lock"))
-                .foregroundStyle(done.contains(lesson.id) ? .green : .niiNavy)
+                .foregroundStyle(done.contains(lesson.id) ? .green : Color.niiNavy)
                 .font(.title3)
             Text("\(index + 1). \(lesson.title)").foregroundStyle(.primary).multilineTextAlignment(.leading)
             Spacer()

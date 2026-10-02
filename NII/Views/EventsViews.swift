@@ -66,7 +66,7 @@ struct EventsView: View {
                 .font(.subheadline.weight(.semibold))
                 .padding(.horizontal, 12).padding(.vertical, 6)
                 .background(kind == value ? Color.niiNavy : Color.niiNavy.opacity(0.1), in: Capsule())
-                .foregroundStyle(kind == value ? .white : .niiNavy)
+                .foregroundStyle(kind == value ? .white : Color.niiNavy)
         }
         .buttonStyle(.plain)
     }
@@ -101,7 +101,7 @@ struct EventRow: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
-                    Label(event.type.title, systemImage: event.type.icon).font(.caption).foregroundStyle(.niiIndigo)
+                    Label(event.type.title, systemImage: event.type.icon).font(.caption).foregroundStyle(Color.niiIndigo)
                     if event.proOnly { ProBadge() }
                     if !event.published { Chip(text: "черновик", color: .gray) }
                 }

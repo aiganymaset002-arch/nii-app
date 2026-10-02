@@ -194,7 +194,7 @@ struct ShopView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.title).font(.subheadline.weight(.semibold)).lineLimit(2).multilineTextAlignment(.leading)
                 HStack {
-                    Text(item.price.usd).font(.headline).foregroundStyle(.niiIndigo)
+                    Text(item.price.usd).font(.headline).foregroundStyle(Color.niiIndigo)
                     if !item.active { Chip(text: "скрыт", color: .gray) }
                 }
             }
@@ -258,7 +258,7 @@ struct OrderSheet: View {
                     RemoteImage(url: item.imageUrl, height: 220, icon: "tshirt.fill")
                         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                     Text(item.title).font(.title2.bold())
-                    Text(item.price.usd).font(.title3.bold()).foregroundStyle(.niiIndigo)
+                    Text(item.price.usd).font(.title3.bold()).foregroundStyle(Color.niiIndigo)
                     if !item.description.isEmpty { Text(item.description).foregroundStyle(.secondary) }
                     TextField("Размер, цвет, как получить", text: $note, axis: .vertical)
                         .lineLimit(2...5)
