@@ -68,7 +68,11 @@ final class AppState: ObservableObject {
     /// Returns false when the user must confirm their email first
     func register(_ form: PendingRegistration, email: String, password: String) async throws -> Bool {
         PendingRegistration.save(form, email: email)
-        let signedInNow = try await api.db.signUp(email: email, password: password, fullName: form.fullName)
+        var signedInNow = try await api.db.signUp(email: email, password: password, fullName: form.fullName)
+        if !signedInNow {
+            // The database confirms accounts at once, so signing in right away works
+            signedInNow = (try? await api.db.signIn(email: email, password: password)) != nil
+        }
         guard signedInNow else { return false }
         signedIn = true
         await loadProfile()

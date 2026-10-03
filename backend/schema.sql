@@ -464,6 +464,21 @@ end $$;
 revoke all on function public.nii_delete_account() from anon, public;
 grant execute on function public.nii_delete_account() to authenticated;
 
+-- ---------- Без подтверждения e-mail ----------
+-- Аккаунт подтверждается сразу при регистрации: не нужно письмо со ссылкой.
+create or replace function public.nii_autoconfirm() returns trigger
+language plpgsql security definer set search_path = auth, public as $$
+begin
+    if new.email_confirmed_at is null then new.email_confirmed_at := now(); end if;
+    return new;
+end $$;
+drop trigger if exists nii_autoconfirm on auth.users;
+create trigger nii_autoconfirm before insert on auth.users
+for each row execute function public.nii_autoconfirm();
+revoke all on function public.nii_autoconfirm() from anon, authenticated, public;
+-- Те, кто уже зарегистрировался и застрял на письме, подтверждаются сейчас
+update auth.users set email_confirmed_at = now() where email_confirmed_at is null;
+
 -- ---------- Доступ приложения к таблицам ----------
 -- В новых проектах Supabase таблицы могут не открываться приложению автоматически.
 -- Что именно можно читать и менять, всё равно решают правила RLS выше.
