@@ -27,7 +27,7 @@ enum NIIError: LocalizedError, Equatable {
     var errorDescription: String? {
         switch self {
         case .notConfigured: return "Приложение ещё не подключено к серверу (NIIConfig)."
-        case .http(let code, let message): return message.isEmpty ? "Ошибка сервера (\(code))." : message
+        case .http(let code, let message): return message.isEmpty ? "Ошибка сервера (\(code))." : "\(message) [\(code)]"
         case .confirmEmail: return "Мы отправили письмо. Подтвердите email по ссылке и войдите."
         case .noSession: return "Войдите в аккаунт."
         }
@@ -45,6 +45,12 @@ enum NIIError: LocalizedError, Equatable {
         if lower.contains("duplicate key") { return "Уже сделано ранее." }
         if lower.contains("could not find the table") || lower.contains("schema cache") || lower.contains("does not exist") {
             return "В базе ещё нет таблиц НИИ. Запустите файл backend/schema.sql в Supabase → SQL Editor. (\(message))"
+        }
+        if lower.contains("permission denied") {
+            return "У приложения нет доступа к таблицам. Запустите backend/schema.sql в Supabase ещё раз. (\(message))"
+        }
+        if lower.contains("invalid api key") || lower.contains("no api key") {
+            return "Неверный ключ Supabase в NIIConfig. (\(message))"
         }
         if lower.contains("jwt expired") { return "Сессия устарела, войдите снова." }
         return message

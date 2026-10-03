@@ -464,5 +464,16 @@ end $$;
 revoke all on function public.nii_delete_account() from anon, public;
 grant execute on function public.nii_delete_account() to authenticated;
 
+-- ---------- Доступ приложения к таблицам ----------
+-- В новых проектах Supabase таблицы могут не открываться приложению автоматически.
+-- Что именно можно читать и менять, всё равно решают правила RLS выше.
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on all tables in schema public to authenticated;
+grant usage, select on all sequences in schema public to authenticated;
+grant execute on function public.nii_claim_role(text), public.nii_activate_family(text),
+    public.nii_event_counts(), public.nii_delete_account() to authenticated;
+revoke all on public.nii_secrets from anon, authenticated;
+notify pgrst, 'reload schema';
+
 -- ---------- Коды для регистрации организатора и команды ----------
 select key as "Код", value as "Значение — сохраните!" from public.nii_secrets where key in ('admin_code', 'team_code');
